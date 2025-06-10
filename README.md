@@ -33,7 +33,7 @@ A real-time location tracking server built with **Node.js**, **Express**, and **
 ---
 
 ## 🗂️ Project Structure
-
+```bash
 SERVER/
 ├── node_modules/ # Installed Node.js packages
 ├── src/ # Source code
@@ -44,7 +44,7 @@ SERVER/
 ├── package.json # Project metadata and dependencies
 ├── package-lock.json # Exact versions of installed dependencies
 └── README.md # Project documentation
-
+```
 ---
 
 ## 📦 Installation
