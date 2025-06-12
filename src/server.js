@@ -5,6 +5,7 @@ import cors from "cors";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import path from "path";
+import { time } from "console";
 
 const PORT = process.env.PORT || 3000;
 
@@ -41,10 +42,10 @@ app.post("/latest-location", (req, res) => {
 
 //real time location updates
 io.on("connection", (socket) => {
-  console.log("New client connected");
+  console.log("New client connected", socket.id);
 
   socket.on("locationUpdate", (coordinates) => {
-    console.log("Received location:", coordinates);
+    console.log("Received location:", { ...coordinates, time: new Date() });
     latestLocation = coordinates;
     socket.broadcast.emit("locationUpdate", coordinates);
   });
