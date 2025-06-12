@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const __dirname = dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 const server = http.createServer(app);
 
@@ -30,7 +30,8 @@ app.get("/", (req, res) => {
   res.sendFile(join(__dirname, "public", "home.html"));
 });
 
-app.get("/latest-location", (req, res) => {
+app.post("/latest-location", (req, res) => {
+  console.log("Received location data:", req.body);
   if (latestLocation) {
     res.json(latestLocation);
   } else {
@@ -42,10 +43,10 @@ app.get("/latest-location", (req, res) => {
 io.on("connection", (socket) => {
   console.log("New client connected");
 
-  socket.on("sendLocation", (location) => {
-    console.log("Received location:", location);
-    latestLocation = location;
-    socket.broadcast.emit("locationUpdate", location);
+  socket.on("locationUpdate", (coordinates) => {
+    console.log("Received location:", coordinates);
+    latestLocation = coordinates;
+    socket.broadcast.emit("locationUpdate", coordinates);
   });
 
   socket.on("disconnect", () => {
@@ -53,6 +54,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
